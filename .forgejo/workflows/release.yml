@@ -9,6 +9,17 @@ jobs:
     runs-on: docker
     steps:
       - uses: actions/checkout@v4
+      - name: Set version info
+        run: |
+          TAG="${{ github.ref_name }}"
+          MC_VERSION="${TAG#mc-}"          # strips "mc-" → 1.17.1-v0.0.176
+          MC_VERSION="${MC_VERSION%%-*}"   # cuts at first dash → 1.17.1
+          PACK_VERSION="${TAG##*-v}"       # keeps everything after "-v" → 0.0.176
+          ZIP_NAME="wrr-${MC_VERSION}-${PACK_VERSION}.zip"
+
+          echo "MC_VERSION=$MC_VERSION" >> "$GITHUB_ENV"
+          echo "PACK_VERSION=$PACK_VERSION" >> "$GITHUB_ENV"
+          echo "ZIP_NAME=$ZIP_NAME" >> "$GITHUB_ENV"
       - name: Install git-cliff
         run: |
           curl -LO https://github.com/orhun/git-cliff/releases/download/v2.14.2/git-cliff-2.14.2-x86_64-unknown-linux-gnu.tar.gz
@@ -23,8 +34,8 @@ jobs:
       - name: Zip Datapack
         run: |
           apt-get update && apt-get install -y zip
-          cd wrr-1.17.1
-          zip -r ../wrr-1.17.1-0.0.176.zip .
+          cd wrr-${{ env.MC_VERSION }}
+          zip -r ../${{ env.ZIP_NAME }} .
           cd ..
           ls -la *.zip
       - name: Publish release
@@ -32,11 +43,11 @@ jobs:
           RESPONSE=$(curl -s -X POST \
             -H "Authorization: token ${{ secrets.DATAPACK_RELEASE_TOKEN }}" \
             -H "Content-Type: application/json" \
-            -d "{\"tag_name\": \"mc-test-1\", \"name\": \"Test Release\", \"body\": \"test notes\"}" \
+            -d "{\"tag_name\": \"${{ github.ref_name }}\", \"name\": \"wrr-${{ env.MC_VERSION }} ${{ env.PACK_VERSION }}\"
             https://git.jordanpicton.xyz/api/v1/repos/pictostudio/mc-datapack-wooden-recipes-revamp/releases)
           echo "$RESPONSE"
           RELEASE_ID=$(echo "$RESPONSE" | python3 -c 'import json,sys; print(json.load(sys.stdin)["id"])')
             curl -s -X POST \
             -H "Authorization: token ${{ secrets.DATAPACK_RELEASE_TOKEN }}" \
-            -F "attachment=@wrr-1.17.1-0.0.176.zip" \
-            "https://git.jordanpicton.xyz/api/v1/repos/pictostudio/mc-datapack-wooden-recipes-revamp/releases/$RELEASE_ID/assets?name=wrr-1.17.1-0.0.176.zip"
+            -F "attachment=@${{ env.ZIP_NAME }}" \
+            "https://git.jordanpicton.xyz/api/v1/repos/pictostudio/mc-datapack-wooden-recipes-revamp/releases/$RELEASE_ID/assets?name=${{ env.ZIP_NAME }}"
