@@ -29,11 +29,13 @@ jobs:
           ls -la *.zip
       - name: Publish release
         run: |
-            RELEASE_ID=$(curl -s -X POST \
+          RESPONSE=$(curl -s -X POST \
             -H "Authorization: token ${{ secrets.DATAPACK_RELEASE_TOKEN }}" \
             -H "Content-Type: application/json" \
-            -d "{\"tag_name\": \"mc-test-1\", \"name\": \"Test Release\", \"body\": $(cat CHANGELOG.md | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))')}" \
-            https://git.jordanpicton.xyz/api/v1/repos/pictostudio/mc-datapack-wooden-recipes-revamp/releases | python3 -c 'import json,sys; print(json.dumps(json.load(sys.stdin)["id"]))')
+            -d "{\"tag_name\": \"mc-test-1\", \"name\": \"Test Release\", \"body\": \"test notes\"}" \
+            https://git.jordanpicton.xyz/api/v1/repos/pictostudio/mc-datapack-wooden-recipes-revamp/releases)
+          echo "$RESPONSE"
+          RELEASE_ID=$(echo "$RESPONSE" | python3 -c 'import json,sys; print(json.load(sys.stdin)["id"])')
             curl -s -X POST \
             -H "Authorization: token ${{ secrets.DATAPACK_RELEASE_TOKEN }}" \
             -F "attachment=@wrr-1.17.1-0.0.176.zip" \
