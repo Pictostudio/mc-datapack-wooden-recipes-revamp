@@ -43,11 +43,11 @@ jobs:
           RESPONSE=$(curl -s -X POST \
             -H "Authorization: token ${{ secrets.DATAPACK_RELEASE_TOKEN }}" \
             -H "Content-Type: application/json" \
-            -d "{\"tag_name\": \"${{ github.ref_name }}\", \"name\": \"wrr-${{ env.MC_VERSION }} ${{ env.PACK_VERSION }}\"
+            -d "{\"tag_name\": \"${{ github.ref_name }}\", \"name\": \"wrr-${{ env.MC_VERSION }} ${{ env.PACK_VERSION }}\", \"body\": \"$(cat CHANGELOG.md | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))')\"}" \
             https://git.jordanpicton.xyz/api/v1/repos/pictostudio/mc-datapack-wooden-recipes-revamp/releases)
           echo "$RESPONSE"
           RELEASE_ID=$(echo "$RESPONSE" | python3 -c 'import json,sys; print(json.load(sys.stdin)["id"])')
-            curl -s -X POST \
+          curl -s -X POST \
             -H "Authorization: token ${{ secrets.DATAPACK_RELEASE_TOKEN }}" \
             -F "attachment=@${{ env.ZIP_NAME }}" \
             "https://git.jordanpicton.xyz/api/v1/repos/pictostudio/mc-datapack-wooden-recipes-revamp/releases/$RELEASE_ID/assets?name=${{ env.ZIP_NAME }}"
