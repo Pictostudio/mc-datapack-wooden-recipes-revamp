@@ -20,6 +20,8 @@ jobs:
       - name: Generate changelog
         run: |
           git-cliff -o CHANGELOG.md
+      - name: Debug Directory
+        run: ls -la
       - name: Zip Datapack
         run: |
           apt-get update && apt-get install -y zip
