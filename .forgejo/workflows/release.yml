@@ -1,0 +1,5 @@
+﻿Release:
+  on:
+    push:
+      tags:
+        - "mc-*"
