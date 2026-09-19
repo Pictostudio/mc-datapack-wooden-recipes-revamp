@@ -14,7 +14,7 @@ jobs:
           curl -LO https://github.com/orhun/git-cliff/releases/download/v2.14.2/git-cliff-2.14.2-x86_64-unknown-linux-gnu.tar.gz
           tar -xzf git-cliff-2.14.2-x86_64-unknown-linux-gnu.tar.gz
           chmod +x git-cliff-*/git-cliff
-          sudo mv git-cliff-*/git-cliff /usr/local/bin
+          mv git-cliff-*/git-cliff /usr/local/bin
           rm git-cliff-*.tar.gz
           rm -rf git-cliff-*
       - name: Generate changelog
