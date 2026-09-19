@@ -26,7 +26,8 @@ jobs:
         run: |
           apt-get update && apt-get install -y zip
           cd wrr-1.17.1
-          zip -r ../wrr-1.17.1.zip
+          zip -r /workspace/wrr-1.17.1-0.0.176.zip .
           cd ..
+          ls -la /workspace/*.zip
       - name: Debug Artifacts
         run: ls -la *.zip
