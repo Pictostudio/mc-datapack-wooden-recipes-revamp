@@ -20,6 +20,10 @@ jobs:
       - name: Generate changelog
         run: |
           git-cliff -o CHANGELOG.md
-      - name: Debug changelog
+      - name: Zip Datapack
         run: |
-          cat CHANGELOG.md
+          cd wrr-1.17.1
+          zip -r ../wrr-1.17.1.zip
+          cd ..
+      - name: Debug Artifacts
+        run: ls -la *.zip
