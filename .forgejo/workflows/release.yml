@@ -1,5 +1,5 @@
-﻿Release:
-  on:
-    push:
-      tags:
-        - "mc-*"
+﻿"name": "Release"
+"on":
+  push:
+    tags:
+      - "mc-*"
