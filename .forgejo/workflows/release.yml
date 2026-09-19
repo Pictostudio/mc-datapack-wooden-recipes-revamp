@@ -3,3 +3,9 @@
   push:
     tags:
       - "mc-*"
+
+jobs:
+  release:
+    runs-on: docker
+    steps:
+      - uses: actions/checkout@v4
