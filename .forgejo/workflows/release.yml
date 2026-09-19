@@ -20,3 +20,6 @@ jobs:
       - name: Generate changelog
         run: |
           git-cliff -o CHANGELOG.md
+      - name: Debug changelog
+        run: |
+          cat CHANGELOG.md
