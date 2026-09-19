@@ -21,7 +21,7 @@ jobs:
         run: |
           git-cliff -o CHANGELOG.md
       - name: Debug Directory
-        run: ls -la
+        run: ls -la wrr-1.17.1/
       - name: Zip Datapack
         run: |
           apt-get update && apt-get install -y zip
