@@ -1,4 +1,6 @@
-﻿"name": "Release"
+﻿# To get this to work, move it to the .forgejo/workflows/release.yml
+
+"name": "Release"
 "on":
   push:
     tags:
