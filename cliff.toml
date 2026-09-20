@@ -94,3 +94,11 @@ topo_order_commits = true
 sort_commits = "oldest"
 # Process submodules commits
 recurse_submodules = false
+
+
+[bump]
+features_always_bump_minor = false  # disable default behavior
+fixes_always_bump_minor = true # enables fix -> minor rule
+breaking_always_bump_major = false # optional, since feat already bumps major
+custom_minor_increment_regex = "^(fix|chore)" # match these for minor bumps
+custom_major_increment_regex = "^feat" # match this for major bumps
