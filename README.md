@@ -11,4 +11,5 @@ A datapack that rebalances wooden recipes within a vanilla friendly way, no more
   - Added a log to stick recipe, 2 logs to 16 sticks!
 
 ### Links
-*Needs changing later*
+  - [Pictostudio](https://pictostudio.co.uk)
+  - [Modrinth](https://modrinth.com/datapack/pictostudio-wrr)
